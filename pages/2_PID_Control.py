@@ -45,7 +45,7 @@ with col3:
     Input_change = st.slider("Change of the input", 0.0, 10.0, value = 1.0)
 col1, col2 = st.columns(2)
 with col1:
-    Input_change_type = st.selectbox("Setpoint change type", ["step", "ramp"])
+    Input_change_type = st.selectbox("Input change shape", ["step", "ramp"])
 with col2:
     type_of_process = st.selectbox("Type of process", ["servo", "regulator"])    
 
