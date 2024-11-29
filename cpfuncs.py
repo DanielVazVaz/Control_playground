@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sympy as sp
 from scipy.integrate import odeint
 
 def FOPDTprocess(y,t,u, d,Kp, taup, thetap, Kd, Input_start):
@@ -100,6 +101,24 @@ def pidPlot(Kp, taup, thetap, Kd, Kc,tauI,tauD, process, tf, Input_start,
     plt.tight_layout()
     ax = plt.gcf()
     return PV.max(), ax
+
+
+def get_Laplace_inverse(num, den):
+    s, t = sp.symbols("s t")
+    exp = sp.parse_expr(num)/ sp.parse_expr(den)
+    inverse = sp.inverse_laplace_transform(exp, s, t)
+    return sp.lambdify(t,inverse),exp, inverse # We lambdify this for usage
+
+def plot_Laplace_inverse(num, den):
+    f, exp,_ = get_Laplace_inverse(num, den)
+    t = np.linspace(0.00001,20,1000)
+    y = f(t)
+    plt.figure(dpi = 300, figsize = (6,2))
+    plt.plot(t,y, color = "red")
+    plt.axhline(0, color="black", ls="--")
+    plt.xlabel("t")
+    plt.ylabel("f(t)")
+    return plt.gcf()
 
 
 if __name__=="__main__":
